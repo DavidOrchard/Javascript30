@@ -15,7 +15,44 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const suggestions = document.querySelector(".suggestions");
+  let cities;
+  let filteredCities;
+  function setList() {
+    const newChildren = filteredCities.map(({city, state}) => {
+    const text = document.querySelector(".search").value;
+    console.log('text', text);
+    let newCity = city;
+    if(text !== "") {
+      const regex = new RegExp(text, "gi");
+      newCity = newCity.replace(regex, `<span class="hl">${text}</span>`);
+    }
+      return `
+      <li><span>${newCity}, ${state}</span>
+        </li>`;
+    });
+    suggestions.innerHTML = newChildren;
+  }
+
+  function onChange() {
+    const text = document.querySelector(".search").value;
+    const regex = new RegExp(text, "gi");
+    filteredCities = cities.filter((city) => city.city.match(regex) || city.state.match(regex));
+    setList();
+  };
+
+  fetch(endpoint)
+    .then((response) => response.json())
+    .then((data) => {
+      cities = filteredCities = data;
+      setList();
+    });
+
+  document.querySelector(".search").addEventListener('change', onChange);
+  document.querySelector(".search").addEventListener('keyup', onChange);
+
+
 
 </script>
 </body>

@@ -21,7 +21,11 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
-
+    :root {
+      --spacing: 10px;
+      --base: #ffc600;
+      --blur: 10px;
+    }
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -39,12 +43,26 @@
       margin-bottom: 50px;
     }
 
+    img {
+      padding: var(--spacing);
+      filter: blur(var(--blur));
+      background-color: var(--base);
+    }
     input {
       width: 100px;
     }
   </style>
 
   <script>
+    const inputs = document.querySelectorAll("input");
+    var r = document.querySelector(':root');
+
+    function doThing() {
+      r.style.setProperty('--'+this.id, this.value + (this.dataset.sizing || ''));
+    }
+    inputs.forEach((input)=> input.addEventListener('change', doThing));
+    inputs.forEach((input)=> input.addEventListener('mousemove', doThing));
+
   </script>
 
 </body>
