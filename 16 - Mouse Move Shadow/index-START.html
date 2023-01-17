@@ -11,6 +11,10 @@
   </div>
 
   <style>
+    :root {
+      --offsetX: 10px;
+      --offsetY: 10px;
+    }
   html {
     color: black;
     font-family: sans-serif;
@@ -29,12 +33,31 @@
   }
 
   h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    text-shadow: var(--offsetX) var(--offsetY) 0 rgba(0,0,0,1);
     font-size: 100px;
   }
   </style>
 
 <script>
+  var r = document.querySelector(':root');
+
+  const MAX_OFFSET = 10;
+  const hero = document.querySelector(".hero h1");
+  const {x, y} = hero.getBoundingClientRect();
+  const { innerHeight, innerWidth } = window;
+  const shadow = ({offsetX, offsetY}) => {
+    const shadowOffsetX = ((offsetX - x )/innerWidth ) * 10;
+    const shadowOffsetY = ((offsetY - y)/innerHeight ) * 10;
+    console.log('offsetX', offsetX, 'y', offsetY);
+    console.log('shadowOffsetX', shadowOffsetX, 'shadowOffsetY', shadowOffsetY);
+
+    document.documentElement.style.setProperty(`--offsetX`, shadowOffsetX + 'px');
+    document.documentElement.style.setProperty(`--offsetY`, shadowOffsetY + 'px');
+
+
+  }
+  document.addEventListener('mousemove', shadow);
+
 </script>
 </body>
 </html>

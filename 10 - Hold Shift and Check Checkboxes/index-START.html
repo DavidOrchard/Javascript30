@@ -96,6 +96,27 @@
   </div>
 
 <script>
+  // iteration solution in the finished.
+  const inputs = document.querySelectorAll("input");
+  let lastCheckedIndex = -1;
+  const onClick = (e, index) => {
+    e.checked = !e.checked;
+    if(e.checked ) {
+      if (lastCheckedIndex === -1) {
+        lastCheckedIndex = index;
+      } else if (e.shiftKey) {
+        for(let i = Math.min(lastCheckedIndex, index); i < Math.max(lastCheckedIndex, index); i++) {
+          inputs[i].checked = true;
+        }
+      }
+    } else {
+      lastCheckedIndex === -1;
+      inputs.forEach((input) => input.checked = false);
+    }
+  };
+
+  inputs.forEach((input, index) => input.addEventListener("click", (e) => onClick(e, index)));
+
 </script>
 </body>
 </html>
