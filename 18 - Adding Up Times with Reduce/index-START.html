@@ -182,6 +182,18 @@
     </li>
   </ul>
 <script>
+
+  const videos = document.querySelectorAll('li');
+  let time = 0;
+  videos.forEach((video) => {
+    const [minutes, seconds] = video.dataset.time.split(':').map(parseFloat); //video.getAttribute('data-time').split(':');
+    time += minutes * 60 + seconds;
+  });
+  const hours = Math.floor(time/3600);
+  const minutes = Math.floor((time - hours * 3600)/60);
+  const seconds = time % 60;
+  const timeStr = `${hours}:${minutes}:${seconds}`;
+  console.log(timeStr);
 </script>
 </body>
 </html>
